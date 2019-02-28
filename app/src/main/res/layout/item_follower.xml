@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_follower_height">
+    <ImageView
+        android:id="@+id/followerItemAvatarImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/member_avatar_image_margin"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintHeight_percent=".50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.1" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/follower_details_margin_start"
+        app:layout_constraintTop_toTopOf="@id/followerItemAvatarImage"
+        app:layout_constraintBottom_toBottomOf="@id/followerItemAvatarImage"
+        app:layout_constraintStart_toEndOf="@id/followerItemAvatarImage">
+        <TextView
+            android:id="@+id/followerItemUserName"
+            android:textSize="@dimen/member_login_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Pedlar" />
+        <TextView
+            android:id="@+id/followerItemLocation"
+            android:textSize="@dimen/member_location_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Austin, TX" />
+        <TextView
+            android:id="@+id/followerItemEmail"
+            android:textSize="@dimen/member_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="madison@something.com" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

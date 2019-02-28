@@ -1,0 +1,42 @@
+[
+  {
+    "login": "Pedlar",
+    "id": 323723,
+    "node_id": "MDQ6VXNlcjMyMzcyMw==",
+    "avatar_url": "https://avatars0.githubusercontent.com/u/323723?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Pedlar",
+    "html_url": "https://github.com/Pedlar",
+    "followers_url": "https://api.github.com/users/Pedlar/followers",
+    "following_url": "https://api.github.com/users/Pedlar/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Pedlar/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Pedlar/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Pedlar/subscriptions",
+    "organizations_url": "https://api.github.com/users/Pedlar/orgs",
+    "repos_url": "https://api.github.com/users/Pedlar/repos",
+    "events_url": "https://api.github.com/users/Pedlar/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Pedlar/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  {
+    "login": "SteveChalker",
+    "id": 5640111,
+    "node_id": "MDQ6VXNlcjU2NDAxMTE=",
+    "avatar_url": "https://avatars3.githubusercontent.com/u/5640111?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/SteveChalker",
+    "html_url": "https://github.com/SteveChalker",
+    "followers_url": "https://api.github.com/users/SteveChalker/followers",
+    "following_url": "https://api.github.com/users/SteveChalker/following{/other_user}",
+    "gists_url": "https://api.github.com/users/SteveChalker/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/SteveChalker/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/SteveChalker/subscriptions",
+    "organizations_url": "https://api.github.com/users/SteveChalker/orgs",
+    "repos_url": "https://api.github.com/users/SteveChalker/repos",
+    "events_url": "https://api.github.com/users/SteveChalker/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/SteveChalker/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+]

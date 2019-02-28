@@ -1,0 +1,16 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // kotlin
+    implementation deps.kotlin.stdlib
+
+    // moshi
+    api deps.square.moshi.lib
+    api deps.square.moshi.adapters
+}
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7

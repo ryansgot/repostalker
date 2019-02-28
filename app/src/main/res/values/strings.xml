@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Repo Stalker</string>
+    <string name="current_member_title_text">Current User</string>
+    <string name="settings">Settings</string>
+    <string name="settings_dialog_title">@string/settings</string>
+    <string name="invalidation_interval">Cache Invalidation Interval (seconds)</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="current_member_data_empty">No Current Member Data</string>
+    <string name="empty_followers">No Followers</string>
+    <string name="filter_text_hint">filter users by name</string>
+    <string name="followers_label">Followers</string>
+</resources>

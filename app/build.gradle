@@ -1,0 +1,171 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.fsryan.gradle.forsuredb'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+apply plugin: 'android-java-coverage-merger'
+
+android {
+    compileSdkVersion versions.android.compileSdk
+
+    defaultConfig {
+        applicationId "com.fsryan.repostalker"
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
+        }
+    }
+    compileOptions {
+        sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += rootProject.file('forsuredbdefs')
+        main.java.srcDirs += file("$buildDir/generated/source/kapt/main")
+        main.java.srcDirs += file("$buildDir/generated/source/kaptKotlin/main")
+        debug.java.srcDirs += file("$buildDir/generated/source/kapt/debug")
+        debug.java.srcDirs += file("$buildDir/generated/source/kaptKotlin/debug")
+        release.java.srcDirs += file("$buildDir/generated/source/kapt/release")
+        release.java.srcDirs += file("$buildDir/generated/source/kaptKotlin/release")
+        test.java.srcDirs += file("$buildDir/generated/source/kapt/test")
+        test.java.srcDirs += file("$buildDir/generated/source/kaptKotlin/test")
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':shared')
+
+    // kotlin
+    implementation deps.kotlin.stdlib
+
+    // auto dsl
+    api deps.auto.dsl.annotation
+    kapt deps.auto.dsl.processor
+
+    // support
+    implementation deps.android.support.appcompatV7
+    implementation deps.android.support.constraintLayout
+    implementation deps.android.support.design
+
+    // dagger
+    implementation deps.dagger.lib
+    implementation deps.dagger.android.lib
+    implementation deps.dagger.android.support
+    kapt deps.dagger.processor
+    kapt deps.dagger.androidProcessor
+
+    // rx
+    implementation deps.rx.java
+    implementation deps.rx.kotlin
+    implementation deps.rx.android
+
+    // forsuredb
+    kapt deps.forsuredb.compiler
+    implementation deps.forsuredb.api
+    implementation deps.forsuredb.sqlitelib
+    implementation deps.forsuredb.android
+    implementation deps.forsuredb.moshi
+
+    // JUnit5
+    testImplementation deps.test.junit5.jupiter.api         // <-- allows running JUnit5 tests
+    testImplementation deps.test.junit5.jupiter.params      // <-- allows running JUnit5 parameterized tests
+    testRuntimeOnly deps.test.junit5.jupiter.engine         // <-- allows running JUnit5 tests
+    testImplementation deps.test.mockk.lib
+
+    testImplementation project(':testtools')
+
+    androidTestImplementation project(':testtools')
+    androidTestImplementation deps.test.android.support.runner
+    androidTestImplementation deps.test.android.support.rules
+    androidTestImplementation deps.test.android.support.espresso.core
+    androidTestImplementation deps.test.android.support.espresso.contrib
+    androidTestImplementation deps.test.mockk.lib
+    androidTestImplementation deps.test.mockk.android
+}
+
+jacoco {
+    toolVersion = versions.plugins.jacoco
+}
+
+forsuredb {
+    applicationPackageName = "com.fsryan.repostalker"
+    resultParameter = "android.net.Uri"
+    recordContainer = "com.fsryan.forsuredb.queryable.FSContentValues"
+    migrationDirectory = 'app/src/main/assets'
+    appProjectDirectory = 'app'
+    resourcesDirectory = 'app/src/main/resources'
+    dbmsIntegratorClass = 'com.fsryan.forsuredb.sqlitelib.SqlGenerator'
+    // optional, specific to your app
+    fsSerializerFactoryClass = 'com.fsryan.repostalker.data.FSJsonSerializerFactory'
+}
+
+afterEvaluate {
+    project.tasks.withType(Test).forEach { t ->
+        t.useJUnitPlatform()    // <-- specify to gradle that we want to run tests on JUnit5 platform
+    }
+
+    // JUnit5 requires a Java8 target.
+    project.tasks.withType(KotlinCompile).forEach { t ->
+        // we don't set the jvm target for non-test sources to 1.8 because it
+        // would break compatibility with Android below API 24. The tests run
+        // on Java 1.8 already, so there is no harm in setting the compile
+        // target to 1.8
+        if (t.name.contains("Test")) {
+            t.kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = versions.plugins.jacoco
+}
+
+mergedReportConfig {
+    classFilters {
+        // buildType + flavor matches are additive rather than overriding
+        debug {
+            includes = ['**/com/fsryan/repostalker/**']
+            excludes = [
+                    '**/R$*.class',                                 // generated R subclasses
+                    '**/R.class',                                   // generated R classes
+                    '**/*Test.class',                               // filter test classes
+                    '**/BuildConfig*',                              // generated BuildConfig classes
+
+                    '**/*_*.class',                                 // Butterknife/AutoValue/Dagger-generated classes
+                    '**/Dagger*.class',                             // Dagger-generated classes
+
+                    // Forsuredb generated classes
+                    '**/TableGenerator.class',
+                    '**/ForSure.class',
+                    '**/*Resolver.class',
+                    '**/*Resolver$*.class',
+                    '**/*Finder.class',
+                    '**/*Finder$*.class',
+                    '**/*OrderBy.class',
+                    '**/*OrderBy$*.class',
+                    '**/*Getter.class',
+                    '**/*Setter.class',
+
+                    '**/testonly/**.class'
+            ]
+        }
+    }
+}

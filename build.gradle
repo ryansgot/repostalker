@@ -1,0 +1,168 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    // I specify build dependencies and project dependencies this way because it
+    // allows for a DRY dependency specification in a a gradle multiproject
+    // build.
+    ext.versions = [
+            'plugins': [
+                    'android': '3.3.0',
+                    'forsuredb': '0.6.3',
+                    'coverageMerger': '0.0.1',
+                    'jacoco': '0.8.2'
+            ],
+            'kotlin': '1.3.11',
+            'android': [
+                    'minSdk': 21,
+                    'targetSdk': 28,
+                    'compileSdk': 28,
+                    'support': [
+                            'lib': '28.0.0',    // not using androidx because I haven't used androidx before
+                            'constraintLayout': '1.1.3'
+                    ]
+            ],
+            'google': [
+                    'dagger': '2.20'
+            ],
+            'rx': [
+                    'java': '2.2.4',
+                    'kotlin': '2.3.0',
+                    'android': '2.1.0',
+                    'lifecycle': '2.2.2'
+            ],
+            'square': [
+                    'retrofit': '2.4.0',
+                    'okhttp3': '3.13.1',
+                    'moshi': '1.8.0'
+            ],
+            'forsuredb': '0.13.0',
+            'auto': [
+                    'dsl': '0.0.9'
+            ],
+            'test': [
+                    'mockk': '1.9',
+                    'junit5': [
+                            'jupiter': '5.3.1'
+                    ],
+                    'android': [
+                            'support': [
+                                    'lib': '1.0.2',
+                                    'espresso': '3.0.2'
+                            ]
+                    ]
+            ]
+    ]
+    ext.deps = [
+            'plugins': [
+                    'android': "com.android.tools.build:gradle:${versions.plugins.android}",
+                    'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+                    'forsuredb': "com.fsryan.gradle.forsuredb:forsuredbplugin:${versions.plugins.forsuredb}",
+                    'coverageMerger': "com.fsryan.gradle.coverage:android-java-coverage-merger:${versions.plugins.coverageMerger}"
+            ],
+            'kotlin': [
+                    'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+            ],
+            'android': [
+                    'support': [
+                            'appcompatV7': "com.android.support:appcompat-v7:${versions.android.support.lib}",
+                            'constraintLayout': "com.android.support.constraint:constraint-layout:${versions.android.support.constraintLayout}",
+                            'design': "com.android.support:design:${versions.android.support.lib}",
+                            'cardviewV7': "com.android.support:cardview-v7:${versions.android.support.lib}"
+                    ]
+            ],
+            'dagger': [
+                    'lib': "com.google.dagger:dagger:${versions.google.dagger}",
+                    'android': [
+                            'lib': "com.google.dagger:dagger-android:${versions.google.dagger}",
+                            'support': "com.google.dagger:dagger-android-support:${versions.google.dagger}"
+                    ],
+                    'androidProcessor': "com.google.dagger:dagger-android-processor:${versions.google.dagger}",
+                    'processor': "com.google.dagger:dagger-compiler:${versions.google.dagger}"
+            ],
+            'rx': [
+                    'java': "io.reactivex.rxjava2:rxjava:${versions.rx.java}",
+                    'kotlin': "io.reactivex.rxjava2:rxkotlin:${versions.rx.kotlin}",
+                    'android': "io.reactivex.rxjava2:rxandroid:${versions.rx.android}"
+            ],
+            'square': [
+                    'retrofit': [
+                            'lib': "com.squareup.retrofit2:retrofit:${versions.square.retrofit}",
+                            'rxjava2': "com.squareup.retrofit2:adapter-rxjava2:${versions.square.retrofit}",
+                            'converterMoshi': "com.squareup.retrofit2:converter-moshi:${versions.square.retrofit}"
+                    ],
+                    'okhttp3': [
+                            'lib': "com.squareup.okhttp3:okhttp:${versions.square.okhttp3}",
+                            'loggingInterceptor': "com.squareup.okhttp3:logging-interceptor:${versions.square.okhttp3}"
+                    ],
+                    'moshi': [
+                            'lib': "com.squareup.moshi:moshi:${versions.square.moshi}",
+                            'adapters': "com.squareup.moshi:moshi-adapters:${versions.square.moshi}",
+                            'codegen': "com.squareup.moshi:moshi-kotlin-codegen:${versions.square.moshi}"
+                    ]
+            ],
+            'forsuredb': [
+                    'compiler': "com.fsryan.forsuredb:forsuredbcompiler:${versions.forsuredb}",
+                    'api': "com.fsryan.forsuredb:forsuredbapi:${versions.forsuredb}",
+                    'sqlitelib': "com.fsryan.forsuredb:sqlitelib:${versions.forsuredb}",
+                    'android': "com.fsryan.forsuredb:forsuredbandroid-contentprovider:${versions.forsuredb}",
+                    'jdbc': "com.fsryan.forsuredb:forsuredbjdbc:${versions.forsuredb}",
+                    'moshi': "com.fsryan.forsuredb:forsuredbmodels-moshi:${versions.forsuredb}"
+            ],
+            'auto': [
+                    'dsl': [
+                            'annotation': "com.juanchosaravia.autodsl:annotation:${versions.auto.dsl}",
+                            'processor': "com.juanchosaravia.autodsl:processor:${versions.auto.dsl}"
+                    ]
+            ],
+            'test': [
+                    'junit5': [
+                            'jupiter': [
+                                    'api': "org.junit.jupiter:junit-jupiter-api:${versions.test.junit5.jupiter}",
+                                    'engine': "org.junit.jupiter:junit-jupiter-engine:${versions.test.junit5.jupiter}",
+                                    'params': "org.junit.jupiter:junit-jupiter-params:${versions.test.junit5.jupiter}"
+                            ]
+                    ],
+                    'mockk': [
+                            'lib': "io.mockk:mockk:${versions.test.mockk}",
+                            'android': "io.mockk:mockk-android:${versions.test.mockk}"
+                    ],
+                    'android': [
+                            'support': [
+                                    'runner': "com.android.support.test:runner:${versions.test.android.support.lib}",
+                                    'espresso': [
+                                            'core': "com.android.support.test.espresso:espresso-core:${versions.test.android.support.espresso}",
+                                            'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.test.android.support.espresso}"
+                                    ],
+                                    'rules': "com.android.support.test:rules:${versions.test.android.support.lib}"
+                            ]
+                    ]
+            ]
+    ]
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url  "http://dl.bintray.com/ryansgot/maven"
+        }
+    }
+    dependencies {
+        classpath deps.plugins.android
+        classpath deps.plugins.kotlin
+        classpath deps.plugins.forsuredb
+        classpath deps.plugins.coverageMerger
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url  "http://dl.bintray.com/ryansgot/maven"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
